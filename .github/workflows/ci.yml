@@ -28,4 +28,8 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-      - run: node index.js
+
+      - name: Run
+        env:
+          BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+        run: node index.js
