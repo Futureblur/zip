@@ -31,5 +31,5 @@ jobs:
 
       - name: Run
         env:
-          BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: node index.js
