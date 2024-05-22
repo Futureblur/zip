@@ -65,6 +65,20 @@ client.on('messageCreate', message => {
 	if (message.content === '!version') {
 		message.reply(`**Version**: ${ version.version } 👁️\n**Last updated**: ${ version.lastUpdated }`);
 	}
+
+	// Check if the message is in the labs channel and starts with "!send "
+	if (message.channel.id === config.labsChannelId && message.content.startsWith('!send ')) {
+		// Extract the message to send
+		const contents = message.content.slice(6).trim();
+
+		// Send the extracted message to the target channel
+		const targetChannel = client.channels.cache.get(config.chatChannelId);
+		if (targetChannel) {
+			targetChannel.send(contents);
+		} else {
+			console.log(`Target channel not found: ${ config.chatChannelId } 🔴`);
+		}
+	}
 });
 
 // Login to Discord with your app's token from env file
