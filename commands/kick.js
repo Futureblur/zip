@@ -16,8 +16,8 @@ module.exports = {
 	async execute(interaction, config) {
 		const target = interaction.options.getUser('target');
 		const member = interaction.guild.members.cache.get(target.id);
-		const moderatorRole = interaction.guild.roles.cache.get(config.moderatorRoleId);
-		const logChannel = interaction.guild.channels.cache.get(config.logChannelId);
+		const moderatorRole = interaction.guild.roles.cache.get(config.roles.moderator);
+		const logChannel = interaction.guild.channels.cache.get(config.channels.log);
 
 		if (!interaction.member.roles.cache.has(moderatorRole.id)) {
 			return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
@@ -57,7 +57,7 @@ module.exports = {
 		if (logChannel) {
 			logChannel.send(`[SYSTEM] **${ target.tag }** has been kicked by **${ interaction.user.tag }**. Reason: ${ reason }`);
 		} else {
-			console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
+			console.log(`Log channel not found: ${ config.channels.log } 🔴`);
 		}
 	}
 };

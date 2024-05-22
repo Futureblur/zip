@@ -8,9 +8,9 @@ module.exports = {
 		// Set status to idle
 		client.user.setStatus('idle');
 
-		const labsChannel = client.channels.cache.get(config.labsChannelId);
+		const labsChannel = client.channels.cache.get(config.channels.labs);
 		if (!labsChannel) {
-			return console.log(`Labs channel not found: ${ config.labsChannelId } 🔴`);
+			return console.log(`Labs channel not found: ${ config.channels.labs } 🔴`);
 		}
 
 		const clientId = config.clientId;

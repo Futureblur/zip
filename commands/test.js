@@ -10,7 +10,7 @@ module.exports = {
 		.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 	async execute(interaction, config) {
 		const guild = interaction.guild;
-		const logChannel = guild.channels.cache.get(config.logChannelId);
+		const logChannel = guild.channels.cache.get(config.channels.log);
 
 		if (!logChannel) {
 			return interaction.reply('Log channel not found.');

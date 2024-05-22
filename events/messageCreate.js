@@ -1,5 +1,3 @@
-const { Message } = require('discord.js');
-
 module.exports = {
 	name: 'messageCreate',
 	async execute(message, config) {
@@ -21,11 +19,11 @@ module.exports = {
 				});
 
 				// Optionally, log the deletion in a channel with the invite link
-				const logChannel = message.guild.channels.cache.get(config.logChannelId);
+				const logChannel = message.guild.channels.cache.get(config.channels.log);
 				if (logChannel) {
 					logChannel.send(`[SYSTEM] **${ message.author.tag }** tried to send an invite link: \`${ message.content }\``);
 				} else {
-					console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
+					console.log(`Log channel not found: ${ config.channels.log } 🔴`);
 				}
 			} catch (error) {
 				console.error('Error deleting message:', error);

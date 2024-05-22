@@ -16,8 +16,8 @@ module.exports = {
 	async execute(interaction, config) {
 		const target = interaction.options.getUser('target');
 		const member = interaction.guild.members.cache.get(target.id);
-		const restrictedRole = interaction.guild.roles.cache.get(config.restrictedRoleId);
-		const moderatorRole = interaction.guild.roles.cache.get(config.moderatorRoleId);
+		const restrictedRole = interaction.guild.roles.cache.get(config.roles.restricted);
+		const moderatorRole = interaction.guild.roles.cache.get(config.roles.moderator);
 
 		if (!restrictedRole) {
 			return interaction.reply({ content: 'Restricted role not found.', ephemeral: true });
@@ -49,11 +49,11 @@ module.exports = {
 		}
 
 		// Log the unrestrict in the specified channel
-		const logChannel = interaction.guild.channels.cache.get(config.logChannelId);
+		const logChannel = interaction.guild.channels.cache.get(config.channels.log);
 		if (logChannel) {
 			logChannel.send(`[SYSTEM] **${ target.tag }** has been unrestricted by **${ interaction.user.tag }**. ${ reason }`);
 		} else {
-			console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
+			console.log(`Log channel not found: ${ config.channels.log } 🔴`);
 		}
 	}
 };

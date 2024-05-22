@@ -1,8 +1,8 @@
 module.exports = async function checkRoles(guild, config, logChannel) {
 	const rolesToCheck = [
-		{ id: config.moderatorRoleId, name: 'Moderator' },
-		{ id: config.restrictedRoleId, name: 'Restricted' },
-		{ id: config.memberRoleId, name: 'Member' },
+		{ id: config.roles.moderator, name: 'Moderator' },
+		{ id: config.roles.restricted, name: 'Restricted' },
+		{ id: config.roles.member, name: 'Member' },
 	];
 
 	let missingRoles = false;

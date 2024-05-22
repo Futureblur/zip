@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'guildMemberRemove',
 	async execute(member, config) {
-		const logChannelId = config.logChannelId;
+		const logChannelId = config.channels.log;
 		const logChannel = member.guild.channels.cache.get(logChannelId);
 
 		if (logChannel) {
