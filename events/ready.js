@@ -2,7 +2,6 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	execute(client, config) {
-		console.log(config);
 		// Set status to idle
 		client.user.setStatus('idle');
 

@@ -30,6 +30,12 @@ jobs:
       - name: Install PM2
         run: npm install -g pm2
 
+      - name: Deploy slash commands
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          NODE_ENV: production
+        run: node deploy-commands.js
+
       - name: Stop previous bot instance
         run: pm2 stop bot || true
 

@@ -4,13 +4,14 @@
 	"description": "",
 	"main": "bot.js",
 	"scripts": {
-		"start": "node bot.js",
+		"start": "node deploy-commands.js && node bot.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@discordjs/builders": "^1.8.1",
 		"discord.js": "^14.15.2",
 		"dotenv": "^16.4.5"
 	},
