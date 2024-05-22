@@ -8,6 +8,9 @@ const config = require(`./config.${ environment }.json`);
 const version = require('./version.json');
 
 client.once('ready', () => {
+	// Set the bot's status to idle
+	client.user.setStatus('idle');
+
 	// Send a message to the specified channel to indicate the bot is ready
 	const labsChannel = client.channels.cache.get(config.labsChannelId);
 	if (labsChannel) {
