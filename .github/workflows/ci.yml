@@ -35,5 +35,6 @@ jobs:
 
       - name: Start bot with PM2
         env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          BOT_TOKEN: ${{ secrets.PRODUCTION_TOKEN }}
+          NODE_ENV: production
         run: pm2 start index.js

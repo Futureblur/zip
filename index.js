@@ -2,10 +2,18 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 require('dotenv').config();
 
-const config = require("./config.json");
+// Determine the environment and load the corresponding config file
+const environment = process.env.NODE_ENV || 'production';
+const config = require(`./config.${ environment }.json`);
 
 client.once('ready', () => {
-    console.log('ZIP is ready. 👁️');
+    // Send a message to the specified channel to indicate the bot is ready
+    const sandboxChannel = client.channels.cache.get(config.sandboxChannelId);
+    if (sandboxChannel) {
+        sandboxChannel.send('ZIP is ready to observe. 👁️');
+    } else {
+        console.log(`Sandbox channel not found: ${ config.readyMessageChannelId } 🔴`);
+    }
 });
 
 // List of greeting messages
