@@ -63,7 +63,7 @@ client.on('messageCreate', message => {
 	}
 
 	if (message.content === '!version') {
-		message.reply(`**Version**: ${ version.version } 👁️. \n**Last updated**: ${ version.lastUpdated }`);
+		message.reply(`**Version**: ${ version.version } 👁️\n**Last updated**: ${ version.lastUpdated }`);
 	}
 });
 
