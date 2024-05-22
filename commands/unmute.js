@@ -9,7 +9,10 @@ module.exports = {
 		.addUserOption(option =>
 			option.setName('target')
 				.setDescription('The user to unmute')
-				.setRequired(true)),
+				.setRequired(true))
+		.addStringOption(option =>
+			option.setName('reason')
+				.setDescription('The reason for unmuting the user')),
 	async execute(interaction, config) {
 		const target = interaction.options.getUser('target');
 		const member = interaction.guild.members.cache.get(target.id);
@@ -34,6 +37,23 @@ module.exports = {
 		} catch (error) {
 			console.error(error);
 			await interaction.reply({ content: 'An error occurred while trying to unmute the user.', ephemeral: true });
+		}
+
+		const reason = interaction.options.getString('reason') || 'Welcome back. 🍹';
+
+		// DM the user who was unrestricted
+		try {
+			await target.send(`You have been unrestricted from **BLUR** 👁️. ${ reason }`);
+		} catch (error) {
+			console.error(error);
+		}
+
+		// Log the unrestrict in the specified channel
+		const logChannel = interaction.guild.channels.cache.get(config.logChannelId);
+		if (logChannel) {
+			logChannel.send(`[SYSTEM] **${ target.tag }** has been unrestricted by **${ interaction.user.tag }**. ${ reason }`);
+		} else {
+			console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
 		}
 	}
 };

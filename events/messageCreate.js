@@ -2,7 +2,7 @@ const { Message } = require('discord.js');
 
 module.exports = {
 	name: 'messageCreate',
-	async execute(message) {
+	async execute(message, config) {
 		// Ignore messages from bots
 		if (message.author.bot) return;
 
@@ -19,6 +19,14 @@ module.exports = {
 				message.channel.send(`${ message.author } don't send invite links, please. ⚠️`).then(msg => {
 					setTimeout(() => msg.delete(), 5000); // Delete the warning message after 5 seconds
 				});
+
+				// Optionally, log the deletion in a channel with the invite link
+				const logChannel = message.guild.channels.cache.get(config.logChannelId);
+				if (logChannel) {
+					logChannel.send(`[SYSTEM] **${ message.author.tag }** tried to send an invite link: \`${ message.content }\``);
+				} else {
+					console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
+				}
 			} catch (error) {
 				console.error('Error deleting message:', error);
 			}

@@ -22,9 +22,17 @@ module.exports = {
 		const targetChannel = interaction.client.channels.cache.get(config.chatChannelId);
 		if (targetChannel) {
 			targetChannel.send(messageContent);
-			await interaction.reply('Message sent!');
+			await interaction.reply('Message sent.');
 		} else {
-			await interaction.reply('Target channel not found.');
+			await interaction.reply('Chat channel not found.');
+		}
+
+		// Log the message in the specified channel
+		const logChannel = interaction.guild.channels.cache.get(config.logChannelId);
+		if (logChannel) {
+			logChannel.send(`[SYSTEM] **${ member.user.tag }** sent a message to chat.`);
+		} else {
+			console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
 		}
 	}
 };

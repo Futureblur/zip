@@ -32,5 +32,13 @@ module.exports = {
 		if (role) {
 			member.roles.add(role).catch(console.error);
 		}
+
+		// Log the new member in the specified channel
+		const logChannel = member.guild.channels.cache.get(config.logChannelId);
+		if (logChannel) {
+			logChannel.send(`[SYSTEM] **${ member.user.tag }** has joined the server.`);
+		} else {
+			console.log(`Log channel not found: ${ config.logChannelId } 🔴`);
+		}
 	}
 };
