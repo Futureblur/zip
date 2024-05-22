@@ -8,11 +8,11 @@ const config = require(`./config.${ environment }.json`);
 
 client.once('ready', () => {
     // Send a message to the specified channel to indicate the bot is ready
-    const sandboxChannel = client.channels.cache.get(config.sandboxChannelId);
-    if (sandboxChannel) {
-        sandboxChannel.send('ZIP is ready to observe. 👁️');
+    const labsChannel = client.channels.cache.get(config.labsChannelId);
+    if (labsChannel) {
+        labsChannel.send('ZIP is ready to observe. 👁️');
     } else {
-        console.log(`Sandbox channel not found: ${ config.readyMessageChannelId } 🔴`);
+        console.log(`Labs channel not found: ${ config.labsChannelId } 🔴`);
     }
 });
 
