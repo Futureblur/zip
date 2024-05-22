@@ -37,4 +37,4 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           NODE_ENV: production
-        run: pm2 start index.js --name "bot"
+        run: pm2 start bot.js --name "bot"
