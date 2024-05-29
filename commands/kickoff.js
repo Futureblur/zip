@@ -58,7 +58,7 @@ module.exports = {
 			console.log('The bot has connected to the channel!');
 
 			try {
-				const stream = await play.stream(link);
+				const stream = await play.stream(link, { quality: 2 });
 				const resource = createAudioResource(stream.stream, {
 					inputType: stream.type,
 				});
