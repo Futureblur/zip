@@ -4,6 +4,10 @@ module.exports = {
 		// Ignore messages from bots
 		if (message.author.bot) return;
 
+		// Ignore if user is a moderator
+		const moderatorRole = message.guild.roles.cache.get(config.roles.moderator);
+		if (message.member.roles.cache.has(moderatorRole.id)) return;
+
 		// Regular expression to match Discord invite links
 		const inviteRegex = /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/[a-zA-Z0-9]+/;
 
