@@ -6,21 +6,19 @@ const {
 	AudioPlayerStatus,
 	VoiceConnectionStatus
 } = require('@discordjs/voice');
-const play = require('play-dl');
-const sodium = require('libsodium-wrappers');
 const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('kickoff')
-		.setDescription('Start a special event.')
+		.setDescription('Join a voice channel and play an audio file from a URL')
 		.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
 		.addStringOption(option =>
-			option.setName('link')
-				.setDescription('Pre-intro audio source.')
+			option.setName('url')
+				.setDescription('The URL of the audio file to play')
 				.setRequired(true)),
 	async execute(interaction, config) {
-		const link = interaction.options.getString('link');
+		const audioUrl = interaction.options.getString('url');
 		const member = await interaction.guild.members.fetch(interaction.user.id);
 		const voiceChannel = member.voice.channel;
 
@@ -35,16 +33,7 @@ module.exports = {
 			return interaction.reply({ content: 'You need to join a voice channel first!', ephemeral: true });
 		}
 
-		// Validate the YouTube link
-		const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-		if (!youtubeRegex.test(link)) {
-			return interaction.reply({ content: 'Please provide a valid YouTube link.', ephemeral: true });
-		}
-
 		await interaction.deferReply();
-
-		// Initialize sodium
-		await sodium.ready;
 
 		const connection = joinVoiceChannel({
 			channelId: voiceChannel.id,
@@ -58,11 +47,7 @@ module.exports = {
 			console.log('The bot has connected to the channel!');
 
 			try {
-				const stream = await play.stream(link, { quality: 2 });
-				const resource = createAudioResource(stream.stream, {
-					inputType: stream.type,
-				});
-
+				const resource = createAudioResource(audioUrl, { inputType: 2 });
 				player.play(resource);
 				connection.subscribe(player);
 
@@ -70,11 +55,7 @@ module.exports = {
 					connection.destroy();
 				});
 
-				if (logChannel) {
-					logChannel.send(`[SYSTEM] **${ interaction.user.tag }** started a special event.`);
-				}
-
-				await interaction.editReply({ content: `Event started.` });
+				await interaction.editReply({ content: `Now playing: ${ audioUrl }` });
 			} catch (error) {
 				console.error('Error while trying to play the audio:', error);
 				await interaction.editReply({ content: 'An error occurred while trying to play the audio.' });
