@@ -70,12 +70,6 @@ module.exports = {
 				player.on(AudioPlayerStatus.Idle, () => {
 					connection.destroy();
 				});
-
-				if (logChannel) {
-					logChannel.send(`[SYSTEM] **${ interaction.user.tag }** started a special event.`);
-				}
-
-				await interaction.editReply({ content: `Event started.` });
 			} catch (error) {
 				console.error('Error while trying to play the audio:', error);
 				await interaction.editReply({ content: 'An error occurred while trying to play the audio.' });
