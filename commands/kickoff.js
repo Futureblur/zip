@@ -17,8 +17,8 @@ module.exports = {
 		.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
 		.addStringOption(option =>
 			option.setName('link')
-				.setDescription('Pre-intro audio source. (obsolete)')
-				.setRequired(false)),
+				.setDescription('Pre-intro audio source.')
+				.setRequired(true)),
 	async execute(interaction, config) {
 		const link = interaction.options.getString('link');
 		const member = await interaction.guild.members.fetch(interaction.user.id);
@@ -37,7 +37,7 @@ module.exports = {
 		}
 
 		// Validate the YouTube link
-		/*const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+		const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
 		if (!youtubeRegex.test(link)) {
 			return interaction.reply({ content: 'Please provide a valid YouTube link.', ephemeral: true });
 		}
@@ -90,9 +90,9 @@ module.exports = {
 		player.on('error', error => {
 			console.error('Error in audio player:', error);
 			connection.destroy();
-		});*/
+		});
 
-		await interaction.deferReply();
+		return;
 
 		const publicChannels = Object.values(config.channels).filter(channel => channel.public);
 
