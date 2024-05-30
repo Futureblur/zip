@@ -1,7 +1,7 @@
 module.exports = async function checkChannels(guild, config, logChannel) {
 	const channelsToCheck = [
-		{ id: config.channels.chat, name: 'Chat' },
-		{ id: config.channels.log, name: 'Log' },
+		{ id: config.channels.chat.id, name: 'Chat' },
+		{ id: config.channels.log.id, name: 'Log' },
 	];
 
 	let missingChannels = false;

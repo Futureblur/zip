@@ -19,7 +19,7 @@ module.exports = {
 		}
 
 		const messageContent = interaction.options.getString('message');
-		const targetChannel = interaction.client.channels.cache.get(config.channels.chat);
+		const targetChannel = interaction.client.channels.cache.get(config.channels.chat.id);
 		if (targetChannel) {
 			targetChannel.send(messageContent);
 			await interaction.reply('Message sent.');
@@ -28,11 +28,11 @@ module.exports = {
 		}
 
 		// Log the message in the specified channel
-		const logChannel = interaction.guild.channels.cache.get(config.channels.log);
+		const logChannel = interaction.guild.channels.cache.get(config.channels.log.id);
 		if (logChannel) {
 			logChannel.send(`[SYSTEM] **${ member.user.tag }** sent a message to chat.`);
 		} else {
-			console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+			console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 		}
 	}
 };

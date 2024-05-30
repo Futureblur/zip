@@ -18,7 +18,7 @@ module.exports = {
 		const member = interaction.guild.members.cache.get(target.id);
 		const restrictedRole = interaction.guild.roles.cache.get(config.roles.restricted);
 		const moderatorRole = interaction.guild.roles.cache.get(config.roles.moderator);
-		const logChannel = interaction.guild.channels.cache.get(config.channels.log);
+		const logChannel = interaction.guild.channels.cache.get(config.channels.log.id);
 
 		if (!restrictedRole) {
 			return interaction.reply({ content: 'Restricted role not found.', ephemeral: true });
@@ -66,7 +66,7 @@ module.exports = {
 		if (logChannel) {
 			logChannel.send(`[SYSTEM] **${ target.tag }** has been restricted by **${ interaction.user.tag }**. Reason: ${ reason }`);
 		} else {
-			console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+			console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 		}
 	}
 };

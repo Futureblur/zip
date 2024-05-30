@@ -13,7 +13,7 @@ module.exports = {
 		const count = interaction.options.getInteger('count');
 		const channel = interaction.channel;
 		const moderatorRole = interaction.guild.roles.cache.get(config.roles.moderator);
-		const logChannel = interaction.guild.channels.cache.get(config.channels.log);
+		const logChannel = interaction.guild.channels.cache.get(config.channels.log.id);
 
 		if (!interaction.member.roles.cache.has(moderatorRole.id)) {
 			return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
@@ -34,7 +34,7 @@ module.exports = {
 				if (logChannel) {
 					logChannel.send(`[SYSTEM] **${ count }** messages have been deleted by **${ interaction.user.tag }** in **${ channel.name }**.`);
 				} else {
-					console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+					console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 				}
 			} else {
 				// Purge the entire channel
@@ -50,7 +50,7 @@ module.exports = {
 				if (logChannel) {
 					logChannel.send(`[SYSTEM] **${ interaction.user.tag }** cleared **${ channel.name }**.`);
 				} else {
-					console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+					console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 				}
 			}
 		} catch (error) {

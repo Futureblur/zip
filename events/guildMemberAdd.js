@@ -22,7 +22,7 @@ module.exports = {
 		const greeting = getRandomGreeting();
 
 		// Send the greeting message to a specific channel
-		const channel = member.guild.channels.cache.get(config.channels.chat);
+		const channel = member.guild.channels.cache.get(config.channels.chat.id);
 		if (channel) {
 			channel.send(`${ member.user } ${ greeting }`);
 		}
@@ -34,11 +34,11 @@ module.exports = {
 		}
 
 		// Log the new member in the specified channel
-		const logChannel = member.guild.channels.cache.get(config.channels.log);
+		const logChannel = member.guild.channels.cache.get(config.channels.log.id);
 		if (logChannel) {
 			logChannel.send(`[SYSTEM] **${ member.user.tag }** has joined the server.`);
 		} else {
-			console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+			console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 		}
 	}
 };

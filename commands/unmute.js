@@ -49,11 +49,11 @@ module.exports = {
 		}
 
 		// Log the unrestrict in the specified channel
-		const logChannel = interaction.guild.channels.cache.get(config.channels.log);
+		const logChannel = interaction.guild.channels.cache.get(config.channels.log.id);
 		if (logChannel) {
 			logChannel.send(`[SYSTEM] **${ target.tag }** has been unrestricted by **${ interaction.user.tag }**. ${ reason }`);
 		} else {
-			console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+			console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 		}
 	}
 };

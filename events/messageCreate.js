@@ -23,11 +23,11 @@ module.exports = {
 				});
 
 				// Optionally, log the deletion in a channel with the invite link
-				const logChannel = message.guild.channels.cache.get(config.channels.log);
+				const logChannel = message.guild.channels.cache.get(config.channels.log.id);
 				if (logChannel) {
 					logChannel.send(`[SYSTEM] **${ message.author.tag }** tried to send an invite link: \`${ message.content }\``);
 				} else {
-					console.log(`Log channel not found: ${ config.channels.log } 🔴`);
+					console.log(`Log channel not found: ${ config.channels.log.id } 🔴`);
 				}
 			} catch (error) {
 				console.error('Error deleting message:', error);
