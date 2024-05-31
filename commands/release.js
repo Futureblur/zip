@@ -29,24 +29,6 @@ module.exports = {
 				}
 			}
 
-			const vc = interaction.guild.channels.cache.get(config.vc.stage.id);
-			if (vc) {
-				await vc.permissionOverwrites.edit(memberRole, {
-					ViewChannel: false,
-					Connect: false
-				});
-			}
-
-			const stage1 = interaction.guild.channels.cache.get(config.channels.stage1.id);
-			if (stage1) {
-				await stage1.permissionOverwrites.edit(memberRole, {
-					ViewChannel: false,
-					SendMessages: false
-				});
-
-				stage1.send("👋 The show is over. Thanks for stopping by.");
-			}
-
 			await interaction.editReply({ content: '🎉 Thank you for attending the event. All channels are now open again.' });
 
 			// Log the event

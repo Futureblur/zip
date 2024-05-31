@@ -4,8 +4,6 @@ module.exports = async function checkChannels(guild, config, logChannel) {
 		{ id: config.channels.log.id, name: 'Log' },
 		{ id: config.channels.render.id, name: 'Render' },
 		{ id: config.channels.introduce.id, name: 'Introduce' },
-		{ id: config.channels.stage1.id, name: 'Stage 1' },
-		{ id: config.vc.stage.id, name: 'Stage VC' },
 	];
 
 	let missingChannels = false;
