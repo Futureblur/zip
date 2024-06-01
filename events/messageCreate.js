@@ -8,8 +8,7 @@ module.exports = {
 		const moderatorRole = message.guild.roles.cache.get(config.roles.moderator);
 		if (message.member.roles.cache.has(moderatorRole.id)) return;
 
-		// Regular expression to match Discord invite links
-		const inviteRegex = /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/[a-zA-Z0-9]+/;
+		const inviteRegex = /https?:\/\/(www\.)?(canary\.|ptb\.)?discord(\.gg|\.com\/invite|app\.com\/invite)\/[a-zA-Z0-9]+|discord\.gg\/[a-zA-Z0-9]+|https?:\/\/(www\.)?(t\.me|telegram\.me)\/[a-zA-Z0-9_]+/;
 
 		// Check if the message contains a Discord invite link
 		if (inviteRegex.test(message.content)) {
