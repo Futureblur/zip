@@ -1,5 +1,6 @@
 const verifyRoles = require('../utils/verifyRoles');
 const verifyChannels = require('../utils/verifyChannels');
+const { ActivityType } = require('discord.js');
 
 module.exports = {
 	name: 'ready',
@@ -7,6 +8,10 @@ module.exports = {
 	async execute(client, config) {
 		// Set status to idle
 		client.user.setStatus('idle');
+		client.user.setActivity({
+			name: 'BLUR 👁️',
+			type: ActivityType.Watching
+		});
 
 		const labsChannel = client.channels.cache.get(config.channels.labs.id);
 		if (!labsChannel) {
