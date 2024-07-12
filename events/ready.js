@@ -6,13 +6,6 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client, config) {
-		// Set status to idle
-		client.user.setStatus('idle');
-		client.user.setActivity({
-			name: 'BLUR 👁️',
-			type: ActivityType.Watching
-		});
-
 		const labsChannel = client.channels.cache.get(config.channels.labs.id);
 		if (!labsChannel) {
 			return console.log(`Labs channel not found: ${ config.channels.labs.id } 🔴`);
