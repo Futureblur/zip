@@ -1,61 +1,85 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('kickoff')
-		.setDescription('Start a special event.')
-		.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-		.addStringOption(option =>
-			option.setName('link')
-				.setDescription('Event video link.')
-				.setRequired(true)),
-	async execute(interaction, config) {
-		const link = interaction.options.getString('link');
+  data: new SlashCommandBuilder()
+    .setName("kickoff")
+    .setDescription("Start a special event.")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+    .addStringOption((option) =>
+      option
+        .setName("link")
+        .setDescription("Event video link.")
+        .setRequired(true),
+    ),
+  async execute(interaction, config) {
+    const link = interaction.options.getString("link");
 
-		const moderatorRole = interaction.guild.roles.cache.get(config.roles.moderator);
-		const memberRole = interaction.guild.roles.cache.get(config.roles.member);
-		const logChannel = interaction.guild.channels.cache.get(config.channels.log.id);
+    const moderatorRole = interaction.guild.roles.cache.get(
+      config.roles.moderator,
+    );
+    const memberRole = interaction.guild.roles.cache.get(config.roles.member);
+    const logChannel = interaction.guild.channels.cache.get(
+      config.channels.log.id,
+    );
 
-		if (!interaction.member.roles.cache.has(moderatorRole.id)) {
-			return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
-		}
+    const errorEmoji = interaction.guild.emojis.cache.find(
+      (emoji) => emoji.name === "zipNo",
+    );
 
-		// Validate youtube link
-		if (!link.match(/^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/)) {
-			return interaction.reply({ content: 'Invalid YouTube link.', ephemeral: true });
-		}
+    if (!interaction.member.roles.cache.has(moderatorRole.id)) {
+      return interaction.reply({
+        content: `${errorEmoji} You do not have permission to use this command.`,
+        ephemeral: true,
+      });
+    }
 
-		await interaction.deferReply();
+    // Validate youtube link
+    if (!link.match(/^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/)) {
+      return interaction.reply({
+        content: `${errorEmoji} The provided link is not a valid YouTube link.`,
+        ephemeral: true,
+      });
+    }
 
-		const publicChannels = Object.values(config.channels).filter(channel => channel.public);
+    await interaction.deferReply();
 
-		try {
-			for (const channel of publicChannels) {
-				const discordChannel = interaction.guild.channels.cache.get(channel.id);
+    const publicChannels = Object.values(config.channels).filter(
+      (channel) => channel.public,
+    );
 
-				if (discordChannel) {
-					await discordChannel.permissionOverwrites.edit(memberRole, {
-						SendMessages: false
-					});
+    try {
+      for (const channel of publicChannels) {
+        const discordChannel = interaction.guild.channels.cache.get(channel.id);
 
-					if (channel.id !== config.channels.chat.id) {
-						await discordChannel.permissionOverwrites.edit(memberRole, {
-							ViewChannel: false
-						});
-					}
-				}
-			}
+        if (discordChannel) {
+          await discordChannel.permissionOverwrites.edit(memberRole, {
+            SendMessages: false,
+          });
 
-			// Reply with link but no embed
-			await interaction.editReply({ content: `🔒 All channels have been locked. The fun begins **[here](<${ link }>)**.` });
+          if (channel.id !== config.channels.chat.id) {
+            await discordChannel.permissionOverwrites.edit(memberRole, {
+              ViewChannel: false,
+            });
+          }
+        }
+      }
 
-			if (logChannel) {
-				logChannel.send(`[SYSTEM] **${ interaction.user.tag }** started a special event.`);
-			}
-		} catch (error) {
-			console.error('Error locking public channels:', error);
-			await interaction.editReply({ content: 'An error occurred while locking the public channels.' });
-		}
-	}
+      // Reply with link but no embed
+      await interaction.editReply({
+        content: `🔒 All channels have been locked. The fun begins **[here](<${link}>)**.`,
+      });
+
+      if (logChannel) {
+        logChannel.send(
+          `[SYSTEM] **${interaction.user.tag}** started a special event.`,
+        );
+      }
+    } catch (error) {
+      console.error("Error locking public channels:", error);
+      await interaction.editReply({
+        content: `${errorEmoji} An error occurred while starting the event.`,
+      });
+    }
+  },
 };

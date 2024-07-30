@@ -27,9 +27,17 @@ module.exports = {
       config.channels.log.id,
     );
 
+    const successEmoji = interaction.guild.emojis.cache.find(
+      (emoji) => emoji.name === "zipYes",
+    );
+
+    const errorEmoji = interaction.guild.emojis.cache.find(
+      (emoji) => emoji.name === "zipNo",
+    );
+
     if (!interaction.member.roles.cache.has(moderatorRole.id)) {
       return interaction.reply({
-        content: "You do not have permission to use this command.",
+        content: `${errorEmoji} You do not have permission to use this command.`,
         ephemeral: true,
       });
     }
@@ -39,14 +47,14 @@ module.exports = {
       logChannel.send(`[SYSTEM] **${interaction.user.tag}** tried to kick me.`);
 
       return interaction.reply({
-        content: "I cannot kick myself. Do you want me to leave? 🤨",
+        content: `${errorEmoji} I cannot kick myself. Do you want me to leave? 😔`,
         ephemeral: true,
       });
     }
 
     if (!member.kickable) {
       return interaction.reply({
-        content: "This user cannot be kicked.",
+        content: `${errorEmoji} I cannot kick this user.`,
         ephemeral: true,
       });
     }
@@ -57,7 +65,7 @@ module.exports = {
     try {
       if (!member.user.bot) {
         await target.send(
-          `You have been kicked from **BLUR** 👁️ for the following reason: ${reason}`,
+          `You have been kicked from **BLUR** 👁️ for the following reason: ${reason}\n-# If you believe this was a mistake, reach out to \`hello@futureblur.com\``,
         );
       }
     } catch (error) {
@@ -67,12 +75,12 @@ module.exports = {
     try {
       await member.kick(reason);
       await interaction.reply({
-        content: `${target.tag} has been kicked. Reason: ${reason}`,
+        content: `${successEmoji} ${target.tag} has been kicked. Reason: ${reason}`,
       });
     } catch (error) {
       console.error(error);
       await interaction.reply({
-        content: "An error occurred while trying to kick the user.",
+        content: `${errorEmoji} There was an error trying to kick ${target.tag}.`,
         ephemeral: true,
       });
     }
