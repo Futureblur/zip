@@ -1,5 +1,6 @@
 const verifyRoles = require("../utils/verifyRoles");
 const verifyChannels = require("../utils/verifyChannels");
+const verifyEmojis = require("../utils/verifyEmojis");
 const { ActivityType } = require("discord.js");
 
 module.exports = {
@@ -24,11 +25,6 @@ module.exports = {
     if (clientId !== client.user.id) {
       labsChannel.send("[ERROR] Client ID does not match.");
     }
-
-    client.user.setActivity("ZIP", {
-      type: ActivityType.Watching,
-      name: "The community",
-    });
 
     const rolesStatus = await verifyRoles(guild, config, labsChannel);
     const channelsStatus = await verifyChannels(guild, config, labsChannel);
