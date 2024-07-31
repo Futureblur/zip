@@ -15,7 +15,8 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("reason")
-        .setDescription("The reason for kicking the user"),
+        .setDescription("The reason for kicking the user")
+        .setRequired(true),
     ),
   async execute(interaction, config) {
     const target = interaction.options.getUser("target");
@@ -59,7 +60,7 @@ module.exports = {
       });
     }
 
-    const reason = interaction.options.getString("reason") || "none provided.";
+    const reason = interaction.options.getString("reason");
 
     // DM the user who was kicked with the reason
     try {
