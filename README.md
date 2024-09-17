@@ -1,2 +1,2 @@
 # zip
-The custom bot for BLUR's discord community.
+The custom bot for BLUR's Discord community.
